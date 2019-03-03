@@ -8,19 +8,12 @@
 
 #include <unistd.h>
 
-#include <argp.h>
-#include <zlib.h>
+#include <canlib.h>
 
 
-/* file variables ----------------------------------------------*/
-uint32_t filelen;
-uint8_t *filebuffer;
-
-/* fw variables ----------------------------------------------*/
-uint32_t crc32_checksum;
-
+/* global variables -------------------------------------------------*/
 /* function prototypes ----------------------------------------------*/
-uint8_t load_file(char *filepath);
-uint32_t crc32_calculate(void);
 
+
+uint8_t loadFile(char *filePath, uint8_t **fileBuffer, uint32_t *fileLen);
 #endif /* CANFLASH_H */
