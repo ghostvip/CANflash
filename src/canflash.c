@@ -1,7 +1,7 @@
 
 #include "canflash.h"
 
-/* main program ---------------------------------------------*/
+/* main program -------------------------------------------------*/
 
 int main(int argc, char **argv){
   /* Begin with loading file */
@@ -12,16 +12,18 @@ int main(int argc, char **argv){
 
   loadFile(filepath, &firmwareBuffer, &filesize);
 
+  CAN_init();
+  uint8_t data[4];
+  data[0] = 0;
+  data[1] = 1;
+  data[2] = 2;
+  data[3] = 3;
+  CAN_txFrame(666, &data, 4);
+
 
 
 }
 
-
-
-/**
- * @brief Function loads file
- * @retval 1 at success 0 at fail
- */
 
 uint8_t loadFile(char *filePath, uint8_t **fileBuffer, uint32_t *fileLen){
   FILE *fileptr;
@@ -44,6 +46,38 @@ uint8_t loadFile(char *filePath, uint8_t **fileBuffer, uint32_t *fileLen){
   return 0;
 }
 
-uint8_t CAN_txFrame(uint8_t *transmitFrame){
+CANIF_TypeDef CAN_init(void){
+  canInitializeLibrary();
+  canhnd = canOpenChannel(CAN_CHANNEL, canOPEN_EXCLUSIVE | canOPEN_REQUIRE_EXTENDED | canOPEN_ACCEPT_VIRTUAL);
+  if(canhnd < 0)return CANIF_ERROR;
 
+  canstat = canSetBusParams(canhnd, CAN_BAUDRATE, 0, 0, 0, 0, 0);
+  if(canstat != canOK)return CAN_statusHandler(canstat);
+
+  canstat = canBusOn(canhnd);
+  if(canstat != canOK)return CAN_statusHandler(canstat);
+
+  return CANIF_OK;
+}
+
+CANIF_TypeDef CAN_txFrame(uint16_t id, uint8_t *frameData, uint8_t dlc){
+  canstat = canWrite(canhnd, id, frameData, dlc, 0x00);
+  if(canstat != canOK)return CAN_statusHandler(canstat);
+  return CANIF_OK;
+}
+
+CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t *fileLen){
+
+}
+
+
+CANIF_TypeDef CAN_statusHandler(canStatus canStatusHandler){
+  if(canStatusHandler != canOK){
+    char textBuffer[255];
+    textBuffer[0] = 0x00;
+    canGetErrorText(canStatusHandler, textBuffer, sizeof(textBuffer));
+    printf("Error %d (%s)\n", (int)canStatusHandler, textBuffer);
+    return CANIF_ERROR;
+  }
+  return CANIF_OK;
 }

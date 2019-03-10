@@ -1,17 +1,28 @@
-#gcc -c src/canflash.c -Iinc/ -obuild/canflash.o && gcc build/canflash.o -lz -o build/canflash
+#gcc -c src/canflash.c -Iinc/ -o build/canflash.o
+
+#gcc build/canflash.o -lcanlib -o build/canflash
 
 CC = gcc
-LDLIBS = -lz
+TARGET = CANflash
 
-SRC_FILES = canflash.c
+DOC_DIR = ./doc
+BUILD_DIR = ./build
+SRC_DIR = ./src
+INC_DIR = ./inc
+CLIBS = -lcanlib
+LDFLAGS = -I$(INC_DIR)
 
-SRC_DIR = /src/
-INC_DIR = /inc/
-BUILD_DIR = /build/
+all: $(TARGET) doc
 
-OBJ = $(subst .c,.o,$(SRC_FILES))
-
-all:
+$(TARGET): canflash.o
+	$(CC) $(BUILD_DIR)/canflash.o $(CLIBS) -o $(BUILD_DIR)/$(TARGET)
 
 canflash.o:
-	$(CC) $(SRC_FILES)
+	$(CC) -c $(SRC_DIR)/canflash.c -o $(BUILD_DIR)/canflash.o
+
+.PHONY: doc
+
+doc:
+	doxygen $(DOC_DIR)/$(TARGET)
+
+	
