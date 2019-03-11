@@ -67,6 +67,25 @@ CANIF_TypeDef CAN_txFrame(uint16_t id, uint8_t *frameData, uint8_t dlc){
 }
 
 CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t *fileLen){
+  uint32_t doubleWords = fileLen / 8;
+  uint8_t txLen;
+
+  for(int doubleWordPtr = 0; doubleWordPtr < (doubleWords + 1); doubleWordPtr++){
+    if(doubleWordPtr <= doubleWords){
+      txLen = 8;
+    }else{
+      txLen = doubleWordsModulo = fileLen % 8;
+    }
+
+    if(CAN_txFrame(CAN_BL_FLASHID, fileBuffer[doubleWordPtr * 8], txLen) != CANIF_OK){
+      return CANIF_ERROR;
+    }
+    
+    for(int i = 0; i < txLen; i++){
+      printf("%d\t", fileBuffer[doubleWordPtr * 8 + txLen]);
+    }
+  }
+
 
 }
 

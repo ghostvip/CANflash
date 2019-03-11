@@ -72,11 +72,17 @@ CANIF_TypeDef CAN_init(void);
 /**
  * @brief Transmits data via CAN interface
  * @param[in] id ID of CAN message
- * @param[in] frameData Data to transmit via CAN
+ * @param[in] frameData Pointer to frame to transmit via CAN
  * @param[in] dlc Data Length Code of CAN message, also length of frameData
  * @return Returns CANIF_TypDef
  */
 CANIF_TypeDef CAN_txFrame(uint16_t id, uint8_t *frameData, uint8_t dlc);
+
+/**
+ * @brief Transmits flash data via CAN interface
+ * @param[in] fileBuffer Pointer to file to transmit via CAN
+ * @param[in] fileLen Pointer to uint32_t for size of file to transmit
+ */
 CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t *fileLen);
 
 CANIF_TypeDef CAN_statusHandler(canStatus canStatusHandler);
