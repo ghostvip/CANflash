@@ -1,6 +1,7 @@
 #gcc -c src/canflash.c -Iinc/ -o build/canflash.o
-
 #gcc build/canflash.o -lcanlib -o build/canflash
+
+#gcc -c src/canflash.c -Iinc/ -o build/canflash.o && gcc build/canflash.o -lcanlib -o build/canflash
 
 CC = gcc
 TARGET = CANflash

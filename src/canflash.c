@@ -5,7 +5,6 @@
 
 int main(int argc, char **argv){
   /* Begin with loading file */
-  
   char filepath[] = "./flashdata/test.png";
   uint8_t *firmwareBuffer;
   uint32_t filesize;
@@ -13,12 +12,8 @@ int main(int argc, char **argv){
   loadFile(filepath, &firmwareBuffer, &filesize);
 
   CAN_init();
-  uint8_t data[4];
-  data[0] = 0;
-  data[1] = 1;
-  data[2] = 2;
-  data[3] = 3;
-  CAN_txFrame(666, &data, 4);
+
+  CAN_txData(firmwareBuffer, filesize);
 
 
 
@@ -66,24 +61,25 @@ CANIF_TypeDef CAN_txFrame(uint16_t id, uint8_t *frameData, uint8_t dlc){
   return CANIF_OK;
 }
 
-CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t *fileLen){
+CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t fileLen){
   uint32_t doubleWords = fileLen / 8;
+  printf("Len:%d", fileLen);
   uint8_t txLen;
+  uint8_t txBuffer[8];
 
   for(int doubleWordPtr = 0; doubleWordPtr < (doubleWords + 1); doubleWordPtr++){
     if(doubleWordPtr <= doubleWords){
       txLen = 8;
     }else{
-      txLen = doubleWordsModulo = fileLen % 8;
+      txLen = fileLen % 8;
     }
 
-    if(CAN_txFrame(CAN_BL_FLASHID, fileBuffer[doubleWordPtr * 8], txLen) != CANIF_OK){
-      return CANIF_ERROR;
-    }
-    
     for(int i = 0; i < txLen; i++){
-      printf("%d\t", fileBuffer[doubleWordPtr * 8 + txLen]);
+      txBuffer[i] = fileBuffer[doubleWordPtr*8 + i];
     }
+
+
+    CAN_txFrame(1, &txBuffer, txLen);
   }
 
 

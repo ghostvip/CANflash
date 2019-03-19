@@ -22,7 +22,7 @@
 #include <canlib.h>
 
 /* Defines -----------------------------------------------------------*/
-#define CAN_CHANNEL 1
+#define CAN_CHANNEL 0
 #define CAN_BL_FLASHID 0xAF
 #define CAN_BAUDRATE canBITRATE_250K
 
@@ -83,7 +83,7 @@ CANIF_TypeDef CAN_txFrame(uint16_t id, uint8_t *frameData, uint8_t dlc);
  * @param[in] fileBuffer Pointer to file to transmit via CAN
  * @param[in] fileLen Pointer to uint32_t for size of file to transmit
  */
-CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t *fileLen);
+CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t fileLen);
 
 CANIF_TypeDef CAN_statusHandler(canStatus canStatusHandler);
 
