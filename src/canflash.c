@@ -54,7 +54,7 @@ uint8_t loadFile(char *filePath, uint8_t **fileBuffer, uint32_t *fileLen, uint32
     fclose(fileptr);
 
 #ifdef DEBUG
-    printf("loaded file [%s], size: %d(0x%x), crc32: 0x%x\n", filePath, *fileLen, *fileLen, *fileCrc32);
+    printf("Loaded file [%s], size: %d(0x%x), crc32: 0x%x\n", filePath, *fileLen, *fileLen, *fileCrc32);
 #endif
 
     return 1;
@@ -117,7 +117,8 @@ CANIF_TypeDef CAN_requestFlash(uint16_t nodeId){
   
 #ifdef DEBUG
   printf("Requested node %d to reset into flash mode\n", nodeId);
-#endif
+#endif /* DEBUG */
+
 }
 
 
@@ -137,34 +138,61 @@ CANIF_TypeDef CAN_transmitFlashInfo(uint16_t nodeId, uint16_t fileLen, uint32_t 
 
 #ifdef DEBUG
   printf("Transmitted information about flash procedure to node %d\n", nodeId);
-#endif
+#endif /* DEBUG */
+
 }
 
 CANIF_TypeDef CAN_awaitACK(uint8_t nodeId, uint16_t timeout){
   uint8_t rxData[8];
-  uint8_t rxID = CAN_BL_FLASHID;
+  uint8_t rxID = 102;
   uint8_t rxDLC;
   uint8_t rxFlag;
   uint64_t rxTime;
 
-  /*@TODO waiting for specific id with timeout has to be implemented*/
+  /* Define variables for timeout */
+  struct timeval time_start, time_curr;
+  uint64_t time_delta;
+  gettimeofday(&time_start, NULL);
 
-  canstat = canReadSpecific(canhnd, rxID, &rxData, &rxDLC, &rxFlag, &rxTime);
+  do{
+    gettimeofday(&time_curr, NULL);
+    time_delta = timeDelta(time_start, time_curr);
+    canstat = canReadSpecific(canhnd, rxID, &rxData, &rxDLC, &rxFlag, &rxTime);
+  }while(time_delta < timeout && canstat != canOK);
+
   if(canstat != canOK){
-    printf("No ACK was received: ");
+
+#ifdef DEBUG
+    printf("No ACK received after %d ms: ", time_delta);
+#endif /* DEBUG */
+
     return CAN_statusHandler(canstat);
-  }
+  }  
+
+#ifdef DEBUG
+  printf("ACK received after %d ms\n", time_delta);
+#endif /* DEBUG */
 
   return CANIF_OK;
 }
 
 CANIF_TypeDef CAN_statusHandler(canStatus canStatusHandler){
   if(canStatusHandler != canOK){
+
+#ifdef DEBUG
     char textBuffer[255];
     textBuffer[0] = 0x00;
     canGetErrorText(canStatusHandler, textBuffer, sizeof(textBuffer));
     printf("Error %d (%s)\n", (int)canStatusHandler, textBuffer);
+#endif /* DEBUG */
+
     return CANIF_ERROR;
   }
   return CANIF_OK;
+}
+
+
+
+uint64_t timeDelta(struct timeval t1, struct timeval t2){
+  return (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec)/1000;
 }

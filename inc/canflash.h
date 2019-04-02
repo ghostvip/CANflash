@@ -32,7 +32,7 @@
 #define CAN_BL_DLC 0x8
 #define CAN_BL_NODEID 3
 
-#define CAN_BL_ACKTIMEOUT 2000
+#define CAN_BL_ACKTIMEOUT 20000
 
 /* Typedefs ---------------------------------------------------------*/
 typedef enum{
@@ -121,5 +121,13 @@ CANIF_TypeDef CAN_transmitFlashInfo(uint16_t nodeId, uint16_t fileLen, uint32_t 
  * @param[in] timeout Timeout to wait for ACK in milliseconds
 */
 CANIF_TypeDef CAN_awaitACK(uint8_t nodeId, uint16_t timeout);
+
+/* utility functions -------------------------------------------------*/
+/**
+ * @brief Returns delta between two time in ms as uint64_t
+ * @param[in] t2 Time do substract form vase time. Param has to be in form of "struct timeval" (/sys/time.h)
+ * @param[in] t1 Base time to calculate delta to. Param has to be in form of "struct timeval" (/sys/time.h)
+*/
+uint64_t timeDelta(struct timeval t1, struct timeval t2);
 
 #endif /* CANFLASH_H */
