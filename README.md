@@ -11,4 +11,3 @@ Since this project does only support the CANload bootloader written by myself, t
 
 ### Prerequisites
 This project uses the Kvaser CANlib SDK to interface with the CAN hardware layer. Instructions on how to install the Kvaser CANlib SDK are available on the Kvaser website: https://www.kvaser.com/developer/canlib-sdk/
-For debugging purposes the CANlib SDKs virtualcan is used.
