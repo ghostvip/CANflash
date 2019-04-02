@@ -11,11 +11,10 @@ int main(int argc, char **argv){
   uint32_t filecrc32;
 
   /* load firmware file into buffer */
-  loadFile(filepath, &firmwareBuffer, &filesize, &filecrc32);
+  if(loadFile(filepath, &firmwareBuffer, &filesize, &filecrc32) != 1) return 0;
 
   /* initialize CAN interface */
-  CAN_init();
-
+  if(CAN_init() != CANIF_OK) return 0;
 
   /* begin flash procedure -------------------- */
 
@@ -59,13 +58,21 @@ uint8_t loadFile(char *filePath, uint8_t **fileBuffer, uint32_t *fileLen, uint32
 
     return 1;
   }
+
+#ifdef DEBUG
+    printf("Could no load file\n");
+#endif
+
   return 0;
 }
 
 CANIF_TypeDef CAN_init(void){
   canInitializeLibrary();
   canhnd = canOpenChannel(CAN_CHANNEL, canOPEN_EXCLUSIVE | canOPEN_REQUIRE_EXTENDED | canOPEN_ACCEPT_VIRTUAL);
-  if(canhnd < 0)return CANIF_ERROR;
+  if(canhnd < 0){
+    printf("Could not initialize CAN interface\n");
+    return CANIF_ERROR;
+  }
 
   canstat = canSetBusParams(canhnd, CAN_BAUDRATE, 0, 0, 0, 0, 0);
   if(canstat != canOK)return CAN_statusHandler(canstat);
@@ -103,15 +110,10 @@ CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t fileLen){
 
 CANIF_TypeDef CAN_requestFlash(uint16_t nodeId){
   uint8_t txData[8];
+  memset(txData, 0, 8);
 
   txData[0] = nodeId;
   txData[1] = CAN_BL_FREQUEST;
-  txData[2] = 0x00;
-  txData[3] = 0x00;
-  txData[4] = 0x00;
-  txData[5] = 0x00;
-  txData[6] = 0x00;
-  txData[7] = 0x00;
 
   CAN_txFrame(&txData);
   
@@ -124,6 +126,7 @@ CANIF_TypeDef CAN_requestFlash(uint16_t nodeId){
 
 CANIF_TypeDef CAN_transmitFlashInfo(uint16_t nodeId, uint16_t fileLen, uint32_t fileCrc32){
   uint8_t txData[8];
+  memset(txData, 0, 8);
 
   txData[0] = nodeId;
   txData[1] = CAN_BL_FREQUEST;
@@ -144,6 +147,7 @@ CANIF_TypeDef CAN_transmitFlashInfo(uint16_t nodeId, uint16_t fileLen, uint32_t 
 
 CANIF_TypeDef CAN_awaitACK(uint8_t nodeId, uint16_t timeout){
   uint8_t rxData[8];
+
   uint8_t rxID = 102;
   uint8_t rxDLC;
   uint8_t rxFlag;
@@ -190,8 +194,6 @@ CANIF_TypeDef CAN_statusHandler(canStatus canStatusHandler){
   }
   return CANIF_OK;
 }
-
-
 
 uint64_t timeDelta(struct timeval t1, struct timeval t2){
   return (t2.tv_sec - t1.tv_sec) * 1000 + (t2.tv_usec - t1.tv_usec)/1000;
