@@ -7,5 +7,5 @@ This informations will help you getting started flashing your microcontrollers w
 ### Prerequisites
 Currently this project is working only with the Kvaser canlib under linux. An efford is made, to make this project compatible to other CAN interfaces and beeing used with other operating systems.
 
-Since this project does only support the CANload bootloader written by myself, this project does only work with STM32F1xx and STM32F3xx microcontrollers. The next stage is to support NPXs LPC1100 Series.
+Since this project does only support the CANload bootloader written by myself, this project does only work with STM32F1xx and STM32F3xx microcontrollers. The next stage is to support NXPs LPC1100 Series.
 
