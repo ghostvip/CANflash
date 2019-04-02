@@ -1,0 +1,106 @@
+\hypertarget{canflash_8c}{}\section{src/canflash.c File Reference}
+\label{canflash_8c}\index{src/canflash.\+c@{src/canflash.\+c}}
+{\ttfamily \#include \char`\"{}canflash.\+h\char`\"{}}\newline
+Include dependency graph for canflash.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{canflash_8c__incl}
+\end{center}
+\end{figure}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{canflash_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char $\ast$$\ast$argv)
+\item 
+uint8\+\_\+t \hyperlink{canflash_8c_a9284dbafa55fb0f7a9133ed784f55d11}{load\+File} (char $\ast$file\+Path, uint8\+\_\+t $\ast$$\ast$file\+Buffer, uint32\+\_\+t $\ast$file\+Len)
+\begin{DoxyCompactList}\small\item\em Loads file from filesystem into given buffer. \end{DoxyCompactList}\item 
+\hyperlink{canflash_8h_a470fb8f6490e1526945b47dddbc616c4}{C\+A\+N\+I\+F\+\_\+\+Type\+Def} \hyperlink{canflash_8c_ae4dd3190f91742c0d6916aa0e251981c}{C\+A\+N\+\_\+init} (void)
+\begin{DoxyCompactList}\small\item\em Initializes C\+AN interface. \end{DoxyCompactList}\item 
+\hyperlink{canflash_8h_a470fb8f6490e1526945b47dddbc616c4}{C\+A\+N\+I\+F\+\_\+\+Type\+Def} \hyperlink{canflash_8c_a54e7a9db928798b80c9b7fd5a4a69f0f}{C\+A\+N\+\_\+tx\+Frame} (uint16\+\_\+t id, uint8\+\_\+t $\ast$frame\+Data, uint8\+\_\+t dlc)
+\begin{DoxyCompactList}\small\item\em Transmits data via C\+AN interface. \end{DoxyCompactList}\item 
+\hyperlink{canflash_8h_a470fb8f6490e1526945b47dddbc616c4}{C\+A\+N\+I\+F\+\_\+\+Type\+Def} \hyperlink{canflash_8c_a13ff004191c702d4fcd4b8ce43ef7bcb}{C\+A\+N\+\_\+tx\+Data} (uint8\+\_\+t $\ast$file\+Buffer, uint32\+\_\+t $\ast$file\+Len)
+\item 
+\hyperlink{canflash_8h_a470fb8f6490e1526945b47dddbc616c4}{C\+A\+N\+I\+F\+\_\+\+Type\+Def} \hyperlink{canflash_8c_ac5cef523b584554f39daf8d5e4c10239}{C\+A\+N\+\_\+status\+Handler} (can\+Status can\+Status\+Handler)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{canflash_8c_ae4dd3190f91742c0d6916aa0e251981c}\label{canflash_8c_ae4dd3190f91742c0d6916aa0e251981c}} 
+\index{canflash.\+c@{canflash.\+c}!C\+A\+N\+\_\+init@{C\+A\+N\+\_\+init}}
+\index{C\+A\+N\+\_\+init@{C\+A\+N\+\_\+init}!canflash.\+c@{canflash.\+c}}
+\subsubsection{\texorpdfstring{C\+A\+N\+\_\+init()}{CAN\_init()}}
+{\footnotesize\ttfamily \hyperlink{canflash_8h_a470fb8f6490e1526945b47dddbc616c4}{C\+A\+N\+I\+F\+\_\+\+Type\+Def} C\+A\+N\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Initializes C\+AN interface. 
+
+\begin{DoxyReturn}{Returns}
+Returns status as C\+A\+N\+I\+F\+\_\+\+Type\+Def 
+\end{DoxyReturn}
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]Add other interfaces as K\+V\+A\+S\+ER leaf light \end{DoxyRefDesc}
+\mbox{\Hypertarget{canflash_8c_ac5cef523b584554f39daf8d5e4c10239}\label{canflash_8c_ac5cef523b584554f39daf8d5e4c10239}} 
+\index{canflash.\+c@{canflash.\+c}!C\+A\+N\+\_\+status\+Handler@{C\+A\+N\+\_\+status\+Handler}}
+\index{C\+A\+N\+\_\+status\+Handler@{C\+A\+N\+\_\+status\+Handler}!canflash.\+c@{canflash.\+c}}
+\subsubsection{\texorpdfstring{C\+A\+N\+\_\+status\+Handler()}{CAN\_statusHandler()}}
+{\footnotesize\ttfamily \hyperlink{canflash_8h_a470fb8f6490e1526945b47dddbc616c4}{C\+A\+N\+I\+F\+\_\+\+Type\+Def} C\+A\+N\+\_\+status\+Handler (\begin{DoxyParamCaption}\item[{can\+Status}]{can\+Status\+Handler }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{canflash_8c_a13ff004191c702d4fcd4b8ce43ef7bcb}\label{canflash_8c_a13ff004191c702d4fcd4b8ce43ef7bcb}} 
+\index{canflash.\+c@{canflash.\+c}!C\+A\+N\+\_\+tx\+Data@{C\+A\+N\+\_\+tx\+Data}}
+\index{C\+A\+N\+\_\+tx\+Data@{C\+A\+N\+\_\+tx\+Data}!canflash.\+c@{canflash.\+c}}
+\subsubsection{\texorpdfstring{C\+A\+N\+\_\+tx\+Data()}{CAN\_txData()}}
+{\footnotesize\ttfamily \hyperlink{canflash_8h_a470fb8f6490e1526945b47dddbc616c4}{C\+A\+N\+I\+F\+\_\+\+Type\+Def} C\+A\+N\+\_\+tx\+Data (\begin{DoxyParamCaption}\item[{uint8\+\_\+t $\ast$}]{file\+Buffer,  }\item[{uint32\+\_\+t $\ast$}]{file\+Len }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{canflash_8c_a54e7a9db928798b80c9b7fd5a4a69f0f}\label{canflash_8c_a54e7a9db928798b80c9b7fd5a4a69f0f}} 
+\index{canflash.\+c@{canflash.\+c}!C\+A\+N\+\_\+tx\+Frame@{C\+A\+N\+\_\+tx\+Frame}}
+\index{C\+A\+N\+\_\+tx\+Frame@{C\+A\+N\+\_\+tx\+Frame}!canflash.\+c@{canflash.\+c}}
+\subsubsection{\texorpdfstring{C\+A\+N\+\_\+tx\+Frame()}{CAN\_txFrame()}}
+{\footnotesize\ttfamily \hyperlink{canflash_8h_a470fb8f6490e1526945b47dddbc616c4}{C\+A\+N\+I\+F\+\_\+\+Type\+Def} C\+A\+N\+\_\+tx\+Frame (\begin{DoxyParamCaption}\item[{uint16\+\_\+t}]{id,  }\item[{uint8\+\_\+t $\ast$}]{frame\+Data,  }\item[{uint8\+\_\+t}]{dlc }\end{DoxyParamCaption})}
+
+
+
+Transmits data via C\+AN interface. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em id} & ID of C\+AN message \\
+\hline
+\mbox{\tt in}  & {\em frame\+Data} & Data to transmit via C\+AN \\
+\hline
+\mbox{\tt in}  & {\em dlc} & Data Length Code of C\+AN message, also length of frame\+Data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns C\+A\+N\+I\+F\+\_\+\+Typ\+Def 
+\end{DoxyReturn}
+\mbox{\Hypertarget{canflash_8c_a9284dbafa55fb0f7a9133ed784f55d11}\label{canflash_8c_a9284dbafa55fb0f7a9133ed784f55d11}} 
+\index{canflash.\+c@{canflash.\+c}!load\+File@{load\+File}}
+\index{load\+File@{load\+File}!canflash.\+c@{canflash.\+c}}
+\subsubsection{\texorpdfstring{load\+File()}{loadFile()}}
+{\footnotesize\ttfamily uint8\+\_\+t load\+File (\begin{DoxyParamCaption}\item[{char $\ast$}]{file\+Path,  }\item[{uint8\+\_\+t $\ast$$\ast$}]{file\+Buffer,  }\item[{uint32\+\_\+t $\ast$}]{file\+Len }\end{DoxyParamCaption})}
+
+
+
+Loads file from filesystem into given buffer. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em file\+Path} & Pointer to string with path of file to load into buffer \\
+\hline
+\mbox{\tt out}  & {\em file\+Buffer} & Pointer to buffer to load file to \\
+\hline
+\mbox{\tt out}  & {\em file\+Len} & Pointer to uint32\+\_\+t for size of loaded file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Returns 0 if loading failes, returns 1 if loading succeded 
+\end{DoxyReturn}
+\mbox{\Hypertarget{canflash_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{canflash_8c_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{canflash.\+c@{canflash.\+c}!main@{main}}
+\index{main@{main}!canflash.\+c@{canflash.\+c}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
