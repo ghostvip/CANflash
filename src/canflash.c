@@ -28,6 +28,8 @@ int main(int argc, char **argv){
   /* wait for node with nodeId to ACK, exit if not NAK/no response */
   if(CAN_awaitACK(CAN_BL_NODEID, CAN_BL_ACKTIMEOUT) != CANIF_OK) return 0;
 
+  /* Begin data transmission to slave */
+
 
 }
 
@@ -89,7 +91,10 @@ CANIF_TypeDef CAN_txFrame(uint8_t *frameData){
   return CANIF_OK;
 }
 
-CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t fileLen){
+
+/*@TODO introduce max page size + await ACK after page tx*/
+
+CANIF_TypeDef CAN_txData(uint8_t *fileBuffer, uint32_t fileLen, uint16_t txSize){
   uint32_t doubleWords = fileLen / 8;
   uint8_t txLen;
   uint8_t txBuffer[8];
